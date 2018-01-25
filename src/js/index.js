@@ -1,3 +1,3 @@
-let pixi = 'sf'
+// src/app.js
 
-console.log(pixi);
+import '../scss/style.scss'
