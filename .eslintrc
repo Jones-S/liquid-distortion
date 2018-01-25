@@ -1,0 +1,8 @@
+{
+  "extends": "vue",
+  "rules": {
+    "import/no-unresolved": 0,
+    "import/no-unassigned-import": 0,
+    "no-multiple-empty-lines": [2, {"max": 3, "maxEOF": 1}] // This tolerates three consecutive blank lines within the file, but only one at the end
+  }
+}
