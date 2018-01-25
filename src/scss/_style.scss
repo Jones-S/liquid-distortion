@@ -1,0 +1,12 @@
+$color: #ff0;
+$color2: #f00;
+
+body {
+  @include container(80em); // to test susy
+
+  @include at(3) { //  to test breakpoint-slicer
+    background-color: $color2;
+	}
+
+  background-color: $color; // to test sass
+}
