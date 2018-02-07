@@ -15,18 +15,20 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   module: {
-    rules: [{
-      test: /\.scss$/,
-      use: extractSass.extract({
-        use: [{
-          loader: "css-loader"
-        }, {
-          loader: "sass-loader"
-        }],
-        // use style-loader in development
-        fallback: "style-loader"
-      })
-    }]
+    rules: [
+      {
+        test: /\.scss$/,
+        use: extractSass.extract({
+          use: [{
+            loader: "css-loader"
+          }, {
+            loader: "sass-loader"
+          }],
+          // use style-loader in development
+          fallback: "style-loader"
+        })
+      }
+    ],
   },
   plugins: [
     extractSass,
@@ -44,7 +46,7 @@ module.exports = {
         to: '[name].html'
       }
     ])
-  ],
+  ]
 };
 
 
