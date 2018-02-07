@@ -4,53 +4,53 @@ class PixiScene {
 
   constructor() {
 
-    var app = new PIXI.Application(800, 600);
+    const app = new PIXI.Application(800, 600);
     document.body.appendChild(app.view);
 
     app.stage.interactive = true;
 
-    var container = new PIXI.Container();
+    const container = new PIXI.Container();
     app.stage.addChild(container);
 
-    var padding = 100;
-    var bounds = new PIXI.Rectangle(
-        -padding,
-        -padding,
-        app.screen.width + padding * 2,
-        app.screen.height + padding * 2
-    );
-
     const displacementSprite  = PIXI.Sprite.fromImage('assets/dmaps/512x512/clouds.jpg')
-    var displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
+    const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
+
+    // repeat displacement image (tiles) to fill screen
+    displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
 
     app.stage.addChild(displacementSprite);
 
     container.filters = [displacementFilter];
 
-    displacementFilter.scale.x = 150;
-    displacementFilter.scale.y = 150;
+    // displacementFilter.scale.x = 1;
+    // displacementFilter.scale.y = 1;
     displacementSprite.anchor.set(0.5);
 
-    var bg = PIXI.Sprite.fromImage('assets/6.jpg');
-    bg.width = app.screen.width;
-    bg.height = app.screen.height;
+    const bg = PIXI.Sprite.fromImage('assets/6.jpg');
+    bg.width = app.screen.width * 2;
+    bg.height = app.screen.height * 2;
 
     container.addChild(bg);
 
-    app.stage
-        .on('mousemove', onPointerMove)
-        .on('touchmove', onPointerMove);
+    app.stage.on('mousedown', onClick)
+    app.stage.on('mouse', onClick)
 
-    function onPointerMove(eventData)
-    {
-        displacementSprite.position.set(eventData.data.global.x - 25, eventData.data.global.y);
+    let animating = false;
+
+    function onClick(eventData) {
+      animating = true;
+        // let mouseX = eventData.data.global.x
+        // let mouseY = eventData.data.global.y
+        // // TweenMax.to( displacementFilter.scale, 1, { x: "+=" + Math.sin( mouseX ) * 1200 + "", y: "+=" + Math.cos( mouseY ) * 200 + ""  });
+        // displacementFilter.scale.x = mouseX
+        // displacementFilter.scale.y = mouseX
     }
-
-    var count = 0;
 
     app.ticker.add(function() {
 
-        count += 0.05;
+        if (animating) {
+          displacementFilter.scale.x = displacementFilter.scale.x + 7
+        }
 
     });
 
