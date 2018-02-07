@@ -20655,59 +20655,39 @@ const pixi = new __WEBPACK_IMPORTED_MODULE_1__pixiscene_js__["a" /* default */](
 class PixiScene {
 
   constructor() {
-    const renderer            = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["autoDetectRenderer"]();
-    const stage               = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Container"]();
-    const slidesContainer     = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Container"]();
-    const displacementSprite  = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"].fromImage( 'img/dmaps/512x512/clouds.jpg' );
-    const displacementFilter  = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["filters"].DisplacementFilter( displacementSprite );
 
-    // Add canvas to the HTML
-    document.body.appendChild( renderer.view );
+    const app = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Application"](800, 600, {backgroundColor : 0x1099bb})
+    document.body.appendChild(app.view)
 
-    // Add child container to the stage
-    stage.addChild( slidesContainer );
+    const container = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Container"]()
+    app.stage.addChild(container)
 
-    // Set the filter to stage
-    stage.filters = [displacementFilter];
+    // const backgroundImageTexture = new PIXI.Texture.fromImage('assets/6.jpg')
+    const backgroundImageSprite  = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"].fromImage('assets/6.jpg')
 
-    // We load the sprites to the slides container and position them at the center of the stage
-    // The sprites array is passed to our component upon its initialization
-    // If our slide has text, we add it as a child to the image and center it
-    function loadPixiSprites( sprites ) {
+    app.stage.addChild(backgroundImageSprite)
 
-      for ( let i = 0; i < sprites.length; i++ ) {
+    const displacementSprite  = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"].fromImage('assets/dmaps/512x512/crystalize.jpg')
+    const displacementFilter  = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["filters"].DisplacementFilter(displacementSprite)
 
-        let texture = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Texture"].fromImage( sprites[i] );
-        let image   = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"]( texture );
+    // app.stage.addChild(displacementFilter)
 
-        if ( texts ) {
+    container.filters = [displacementFilter]
 
-          // Base styles for our Text
-          let textStyle = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["TextStyle"]({
-            fill: '#ffffff',
-            wordWrap: true,
-            wordWrapWidth: 400
-          });
+    // Animate
+      requestAnimationFrame(animate);
 
-          let text = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Text"]( texts[i], textStyle);
-          image.addChild( text );
+      function animate() {
+          var offset = 2;
 
-          // Center each to text to the image
-          text.anchor.set(0.5);
-          text.x = image.width / 2;
-          text.y = image.height / 2;
+          displacementFilter.x += offset;
+          displacementFilter.y += offset;
 
-        }
-
-        image.anchor.set(0.5);
-        image.x = renderer.width / 2;
-        image.y = renderer.height / 2;
-
-        slidesContainer.addChild( image );
-
+          app.renderer.render(app.stage);
+          requestAnimationFrame(animate);
       }
 
-    };
+
   }
 
 }
