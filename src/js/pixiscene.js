@@ -4,40 +4,57 @@ class PixiScene {
 
   constructor() {
 
-    const app = new PIXI.Application(800, 600, {backgroundColor : 0x1099bb})
-    document.body.appendChild(app.view)
+    var app = new PIXI.Application(800, 600);
+    document.body.appendChild(app.view);
 
-    const container = new PIXI.Container()
-    app.stage.addChild(container)
+    app.stage.interactive = true;
 
-    // const backgroundImageTexture = new PIXI.Texture.fromImage('assets/6.jpg')
-    const backgroundImageSprite  = new PIXI.Sprite.fromImage('assets/6.jpg')
+    var container = new PIXI.Container();
+    app.stage.addChild(container);
 
-    app.stage.addChild(backgroundImageSprite)
+    var padding = 100;
+    var bounds = new PIXI.Rectangle(
+        -padding,
+        -padding,
+        app.screen.width + padding * 2,
+        app.screen.height + padding * 2
+    );
 
-    const displacementSprite  = new PIXI.Sprite.fromImage('assets/dmaps/512x512/crystalize.jpg')
-    const displacementFilter  = new PIXI.filters.DisplacementFilter(displacementSprite)
+    const displacementSprite  = PIXI.Sprite.fromImage('assets/dmaps/512x512/clouds.jpg')
+    var displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
 
-    // app.stage.addChild(displacementFilter)
+    app.stage.addChild(displacementSprite);
 
-    container.filters = [displacementFilter]
+    container.filters = [displacementFilter];
 
-    // Animate
-      requestAnimationFrame(animate);
+    displacementFilter.scale.x = 150;
+    displacementFilter.scale.y = 150;
+    displacementSprite.anchor.set(0.5);
 
-      function animate() {
-          var offset = 2;
+    var bg = PIXI.Sprite.fromImage('assets/6.jpg');
+    bg.width = app.screen.width;
+    bg.height = app.screen.height;
 
-          displacementFilter.x += offset;
-          displacementFilter.y += offset;
+    container.addChild(bg);
 
-          app.renderer.render(app.stage);
-          requestAnimationFrame(animate);
-      }
+    app.stage
+        .on('mousemove', onPointerMove)
+        .on('touchmove', onPointerMove);
 
+    function onPointerMove(eventData)
+    {
+        displacementSprite.position.set(eventData.data.global.x - 25, eventData.data.global.y);
+    }
+
+    var count = 0;
+
+    app.ticker.add(function() {
+
+        count += 0.05;
+
+    });
 
   }
-
 }
 
 export { PixiScene as default};
