@@ -2,6 +2,11 @@ const path = require('path')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+const extractSass = new ExtractTextPlugin({
+    filename: "css/[name].css",
+    disable: process.env.NODE_ENV === "development"
+});
+
 module.exports = {
   entry: './src/js/index.js',
   output: {
@@ -10,27 +15,20 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.js$/,
-      include: path.resolve(__dirname, 'src'),
-      use: [{
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['es2015', { modules: false }]
-          ]
-        }
-      }]
-    },
-    {
       test: /\.scss$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader', 'sass-loader']
+      use: extractSass.extract({
+        use: [{
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader"
+        }],
+        // use style-loader in development
+        fallback: "style-loader"
       })
-    }],
+    }]
   },
   plugins: [
-    new ExtractTextPlugin('css/[name].bundle.css'),
+    extractSass,
     new BrowserSyncPlugin({
       // browse to http://localhost:3000/ during development,
       // ./dist directory is being served
