@@ -1,6 +1,7 @@
 const path = require('path')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const extractSass = new ExtractTextPlugin({
     filename: "css/[name].css",
@@ -36,6 +37,15 @@ module.exports = {
       port: 3000,
       files: ['./dist/*.html'],
       server: { baseDir: ['dist'] }
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: './src/*.html',
+        to: '[name].html'
+      }
+    ])
   ],
 };
+
+
+// TODO use https://github.com/jantimon/html-webpack-plugin for html generation and copying to dist folder
