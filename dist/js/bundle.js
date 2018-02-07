@@ -20659,57 +20659,83 @@ class PixiScene {
 
   constructor() {
 
-    const app = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Application"](800, 600)
-    document.body.appendChild(app.view)
 
-    app.stage.interactive = true
+    // this.app = new PIXI.Application(600, 500)
+    this.app = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Application"](window.innerWidth, window.innerHeight)
+    document.body.appendChild(this.app.view)
 
-    const container = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Container"]()
-    app.stage.addChild(container)
+    this.app.stage.interactive = true
 
-    const displacementSprite  = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"].fromImage('assets/dmaps/512x512/clouds.jpg')
+    this.container = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Container"]()
+    this.app.stage.addChild(this.container)
+
+    // const bg = PIXI.Sprite.fromImage('assets/inspirational-patterns-that-can-be-interpreted-by-sharpsicis-the-art-mosaic-factory-and-be-created-into-a-custom-sharpmosaic.jpg')
+    // const bg = PIXI.Sprite.fromImage('assets/Marbled_paper.jpg')
+    // const bg = PIXI.Sprite.fromImage('assets/tumblr_nnj1v1T4el1rclv0wo1_500.jpg')
+    // const bg = PIXI.Sprite.fromImage('assets/a3de5c91d073253d9b6a31bcc4a20a6d.jpg')
+    const texture = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Texture"].fromImage('assets/marble_pattern.jpg')
+    const bg = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["extras"].TilingSprite(
+        texture,
+        this.app.screen.width,
+        this.app.screen.height
+    );
+
+    this.app.stage.addChild(bg)
+
+
+    // bg.width = this.app.screen.width * 1.5
+    // bg.height = this.app.screen.height * 1.5
+
+    // this.container.x = -300
+    // this.container.y = -300
+
+    this.container.addChild(bg)
+
+    this.addDisplacementMap()
+
+
+  }
+
+  addDisplacementMap() {
+    const displacementSprite  = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"].fromImage('assets/dmaps/2048x2048/ripple.jpg')
     const displacementFilter = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["filters"].DisplacementFilter(displacementSprite)
 
     // repeat displacement image (tiles) to fill screen
     displacementSprite.texture.baseTexture.wrapMode = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["WRAP_MODES"].REPEAT
 
-    app.stage.addChild(displacementSprite)
+    console.log(this);
 
-    container.filters = [displacementFilter]
+    this.app.stage.addChild(displacementSprite)
+
+    this.container.filters = [displacementFilter]
 
     displacementFilter.scale.x = 300
     displacementFilter.scale.y = 300
     displacementSprite.anchor.set(0.5)
 
-    const bg = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"].fromImage('assets/6.jpg')
-    bg.width = app.screen.width * 1.2
-    bg.height = app.screen.height * 1.2
+    this.app.stage.on('mousedown', onClick)
+    this.app.stage.on('mouseup', onMouseUp)
 
-    container.addChild(bg)
+    let animating = true
 
-    app.stage.on('mousedown', onClick)
-    app.stage.on('mouseup', onMouseUp)
-
-    let animating = false
-
-    function onClick(eventData) {
-      animating = true
-    }
-
-    function onMouseUp(eventData) {
+    function onClick() {
       animating = false
-      __WEBPACK_IMPORTED_MODULE_1_gsap___default.a.to( displacementFilter.scale, 1, { x: 100, y: 100});
+      __WEBPACK_IMPORTED_MODULE_1_gsap___default.a.to( displacementFilter.scale, 1, { x: 0, y: 0 });
     }
 
-    app.ticker.add(function() {
+    function onMouseUp() {
+      __WEBPACK_IMPORTED_MODULE_1_gsap___default.a.to( displacementFilter.scale, 1, { x: Math.sin( 200 ) * 350, y: Math.cos( 200 ) * 350, onComplete: () => { animating = true } });
+    }
 
-        if (animating) {
-          __WEBPACK_IMPORTED_MODULE_1_gsap___default.a.to( displacementFilter.scale, 1, { x: Math.sin( 200 ) * 350, y: Math.cos( 200 ) * 350});
-          displacementSprite.rotation += 0.0005
-        }
+    this.app.ticker.add(function() {
+
+      if (animating) {
+        displacementFilter.scale.x = Math.sin( 200 ) * 350
+        displacementFilter.scale.y = Math.cos( 200 ) * 350
+        displacementSprite.rotation += 0.0005
+      }
 
     })
-
   }
 }
 
