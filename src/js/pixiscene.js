@@ -5,6 +5,13 @@ class PixiScene {
 
   constructor() {
 
+    this.speed = 5
+    this.angle = 20
+
+    this.size = {
+      x: 223,
+      y: 236
+    }
 
     // this.app = new PIXI.Application(600, 500)
     this.app = new PIXI.Application(window.innerWidth, window.innerHeight)
@@ -20,14 +27,27 @@ class PixiScene {
 
     this.container.addChild(this.c)
 
-    this.app.ticker.add(this.animate(this.c))
+    this.app.ticker.add(() => {
+      console.log('animate');
 
-    this.app.ticker.start()
+      if ((this.c.x + this.size.x) > this.app.screen.width || this.c.x < 0 ) {
+         this.angle = 180 - this.angle
+      } else if ((this.c.y + this.size.y) > this.app.screen.height || this.c.y < 0) {
+         this.angle = 360 - this.angle
+      }
+
+      let radians = this.angle * Math.PI/ 180
+      let xunits = Math.cos(radians) * this.speed
+      let yunits = Math.sin(radians) * this.speed
+
+      this.c.x += xunits
+      this.c.y += yunits
+    })
+
   }
 
   animate(item) {
-    console.log('animate');
-    item.x += 1
+
   }
 }
 
