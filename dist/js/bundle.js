@@ -358,7 +358,7 @@ Object.defineProperty(exports, 'WebGLManager', {
   }
 });
 
-var _ObjectRenderer = __webpack_require__(16);
+var _ObjectRenderer = __webpack_require__(17);
 
 Object.defineProperty(exports, 'ObjectRenderer', {
   enumerable: true,
@@ -367,7 +367,7 @@ Object.defineProperty(exports, 'ObjectRenderer', {
   }
 });
 
-var _RenderTarget = __webpack_require__(18);
+var _RenderTarget = __webpack_require__(19);
 
 Object.defineProperty(exports, 'RenderTarget', {
   enumerable: true,
@@ -437,7 +437,7 @@ var _CanvasRenderer = __webpack_require__(11);
 
 var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 
-var _WebGLRenderer = __webpack_require__(17);
+var _WebGLRenderer = __webpack_require__(18);
 
 var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
 
@@ -5285,6 +5285,33 @@ Mesh.DRAW_MODES = {
 
 /***/ }),
 /* 16 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5367,7 +5394,7 @@ exports.default = ObjectRenderer;
 //# sourceMappingURL=ObjectRenderer.js.map
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5391,11 +5418,11 @@ var _FilterManager = __webpack_require__(129);
 
 var _FilterManager2 = _interopRequireDefault(_FilterManager);
 
-var _RenderTarget = __webpack_require__(18);
+var _RenderTarget = __webpack_require__(19);
 
 var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 
-var _ObjectRenderer = __webpack_require__(16);
+var _ObjectRenderer = __webpack_require__(17);
 
 var _ObjectRenderer2 = _interopRequireDefault(_ObjectRenderer);
 
@@ -6189,7 +6216,7 @@ _utils.pluginTarget.mixin(WebGLRenderer);
 //# sourceMappingURL=WebGLRenderer.js.map
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6521,7 +6548,7 @@ exports.default = RenderTarget;
 //# sourceMappingURL=RenderTarget.js.map
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6794,33 +6821,6 @@ function buildNativeLine(graphicsData, webGLData) {
     }
 }
 //# sourceMappingURL=buildLine.js.map
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
 
 /***/ }),
 /* 21 */
@@ -18460,7 +18460,7 @@ var _CanvasRenderer = __webpack_require__(11);
 
 var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 
-var _WebGLRenderer = __webpack_require__(17);
+var _WebGLRenderer = __webpack_require__(18);
 
 var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
 
@@ -20650,7 +20650,7 @@ const pixi = new __WEBPACK_IMPORTED_MODULE_1__pixiscene_js__["a" /* default */](
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PixiScene; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pixi_js__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_pixi_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_pixi_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_gsap__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_gsap__ = __webpack_require__(193);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_gsap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_gsap__);
 
 
@@ -20669,73 +20669,19 @@ class PixiScene {
     this.container = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Container"]()
     this.app.stage.addChild(this.container)
 
-    // const bg = PIXI.Sprite.fromImage('assets/inspirational-patterns-that-can-be-interpreted-by-sharpsicis-the-art-mosaic-factory-and-be-created-into-a-custom-sharpmosaic.jpg')
-    // const bg = PIXI.Sprite.fromImage('assets/Marbled_paper.jpg')
-    // const bg = PIXI.Sprite.fromImage('assets/tumblr_nnj1v1T4el1rclv0wo1_500.jpg')
-    // const bg = PIXI.Sprite.fromImage('assets/a3de5c91d073253d9b6a31bcc4a20a6d.jpg')
-    const texture = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Texture"].fromImage('assets/marble_pattern.jpg')
-    const bg = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["extras"].TilingSprite(
-        texture,
-        this.app.screen.width,
-        this.app.screen.height
-    );
+    const texture = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Texture"].fromImage('assets/c.svg')
+    this.c = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"](texture)
 
-    this.app.stage.addChild(bg)
+    this.container.addChild(this.c)
 
+    this.app.ticker.add(this.animate(this.c))
 
-    // bg.width = this.app.screen.width * 1.5
-    // bg.height = this.app.screen.height * 1.5
-
-    // this.container.x = -300
-    // this.container.y = -300
-
-    this.container.addChild(bg)
-
-    this.addDisplacementMap()
-
-
+    this.app.ticker.start()
   }
 
-  addDisplacementMap() {
-    const displacementSprite  = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Sprite"].fromImage('assets/dmaps/2048x2048/ripple.jpg')
-    const displacementFilter = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["filters"].DisplacementFilter(displacementSprite)
-
-    // repeat displacement image (tiles) to fill screen
-    displacementSprite.texture.baseTexture.wrapMode = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["WRAP_MODES"].REPEAT
-
-    console.log(this);
-
-    this.app.stage.addChild(displacementSprite)
-
-    this.container.filters = [displacementFilter]
-
-    displacementFilter.scale.x = 300
-    displacementFilter.scale.y = 300
-    displacementSprite.anchor.set(0.5)
-
-    this.app.stage.on('mousedown', onClick)
-    this.app.stage.on('mouseup', onMouseUp)
-
-    let animating = true
-
-    function onClick() {
-      animating = false
-      __WEBPACK_IMPORTED_MODULE_1_gsap___default.a.to( displacementFilter.scale, 1, { x: 0, y: 0 });
-    }
-
-    function onMouseUp() {
-      __WEBPACK_IMPORTED_MODULE_1_gsap___default.a.to( displacementFilter.scale, 1, { x: Math.sin( 200 ) * 350, y: Math.cos( 200 ) * 350, onComplete: () => { animating = true } });
-    }
-
-    this.app.ticker.add(function() {
-
-      if (animating) {
-        displacementFilter.scale.x = Math.sin( 200 ) * 350
-        displacementFilter.scale.y = Math.cos( 200 ) * 350
-        displacementSprite.rotation += 0.0005
-      }
-
-    })
+  animate(item) {
+    console.log('animate');
+    item.x += 1
   }
 }
 
@@ -20858,7 +20804,7 @@ if (typeof _deprecation2.default === 'function') {
 // Always export PixiJS globally.
 global.PIXI = exports; // eslint-disable-line
 //# sourceMappingURL=index.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
 
 /***/ }),
 /* 92 */
@@ -21086,7 +21032,7 @@ if (!global.cancelAnimationFrame) {
     };
 }
 //# sourceMappingURL=requestAnimationFrame.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
 
 /***/ }),
 /* 96 */
@@ -23211,7 +23157,7 @@ function mapPremultipliedBlendModes() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(114)(module), __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(114)(module), __webpack_require__(16)))
 
 /***/ }),
 /* 114 */
@@ -24533,11 +24479,11 @@ function mapCanvasBlendModesToPixi() {
 
 exports.__esModule = true;
 
-var _ObjectRenderer2 = __webpack_require__(16);
+var _ObjectRenderer2 = __webpack_require__(17);
 
 var _ObjectRenderer3 = _interopRequireDefault(_ObjectRenderer2);
 
-var _WebGLRenderer = __webpack_require__(17);
+var _WebGLRenderer = __webpack_require__(18);
 
 var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
 
@@ -25723,7 +25669,7 @@ var _WebGLManager2 = __webpack_require__(12);
 
 var _WebGLManager3 = _interopRequireDefault(_WebGLManager2);
 
-var _RenderTarget = __webpack_require__(18);
+var _RenderTarget = __webpack_require__(19);
 
 var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 
@@ -26387,7 +26333,7 @@ var _pixiGlCore = __webpack_require__(5);
 
 var _const = __webpack_require__(1);
 
-var _RenderTarget = __webpack_require__(18);
+var _RenderTarget = __webpack_require__(19);
 
 var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 
@@ -29382,11 +29328,11 @@ var _utils = __webpack_require__(2);
 
 var _const = __webpack_require__(1);
 
-var _ObjectRenderer2 = __webpack_require__(16);
+var _ObjectRenderer2 = __webpack_require__(17);
 
 var _ObjectRenderer3 = _interopRequireDefault(_ObjectRenderer2);
 
-var _WebGLRenderer = __webpack_require__(17);
+var _WebGLRenderer = __webpack_require__(18);
 
 var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
 
@@ -29847,7 +29793,7 @@ exports.default = PrimitiveShader;
 exports.__esModule = true;
 exports.default = buildPoly;
 
-var _buildLine = __webpack_require__(19);
+var _buildLine = __webpack_require__(20);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -29938,7 +29884,7 @@ function buildPoly(graphicsData, webGLData, webGLDataNativeLines) {
 exports.__esModule = true;
 exports.default = buildRectangle;
 
-var _buildLine = __webpack_require__(19);
+var _buildLine = __webpack_require__(20);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -30023,7 +29969,7 @@ var _earcut = __webpack_require__(65);
 
 var _earcut2 = _interopRequireDefault(_earcut);
 
-var _buildLine = __webpack_require__(19);
+var _buildLine = __webpack_require__(20);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -30180,7 +30126,7 @@ function quadraticBezierCurve(fromX, fromY, cpX, cpY, toX, toY) {
 exports.__esModule = true;
 exports.default = buildCircle;
 
-var _buildLine = __webpack_require__(19);
+var _buildLine = __webpack_require__(20);
 
 var _buildLine2 = _interopRequireDefault(_buildLine);
 
@@ -41851,11 +41797,7 @@ exports.default = TimeLimiter;
 //# sourceMappingURL=TimeLimiter.js.map
 
 /***/ }),
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -49821,7 +49763,7 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
 		_tickerActive = false; //ensures that the first official animation forces a ticker.tick() to update the time when it is instantiated
 
 })((typeof(module) !== "undefined" && module.exports && typeof(global) !== "undefined") ? global : this || window, "TweenMax");
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
 
 /***/ })
 /******/ ]);
