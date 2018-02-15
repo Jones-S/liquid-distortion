@@ -2,4 +2,4 @@
 import '../scss/main.scss'
 import PixiScene from './pixiscene.js';
 
-const pixi = new PixiScene();
+const pixi = new PixiScene()

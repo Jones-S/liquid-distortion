@@ -20633,7 +20633,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-const pixi = new __WEBPACK_IMPORTED_MODULE_1__pixiscene_js__["a" /* default */]();
+const pixi = new __WEBPACK_IMPORTED_MODULE_1__pixiscene_js__["a" /* default */]()
 
 
 /***/ }),
@@ -20671,9 +20671,9 @@ class PixiScene {
     this.app = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Application"](window.innerWidth, window.innerHeight)
     document.body.appendChild(this.app.view)
 
-    this.app.stage.interactive = true
 
     this.container = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Container"]()
+    this.container.interactive = true
     this.app.stage.addChild(this.container)
 
     const texture = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["Texture"].fromImage('assets/c.svg')
@@ -20681,8 +20681,11 @@ class PixiScene {
 
     this.container.addChild(this.c)
 
+    this.container.on('pointerdown', this.onClick)
+
+
+
     this.app.ticker.add(() => {
-      console.log('animate');
 
       if ((this.c.x + this.size.x) > this.app.screen.width || this.c.x < 0 ) {
          this.angle = 180 - this.angle
@@ -20697,11 +20700,6 @@ class PixiScene {
       this.c.x += xunits
       this.c.y += yunits
     })
-
-  }
-
-  animate(item) {
-
   }
 }
 
