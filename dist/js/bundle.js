@@ -20701,6 +20701,10 @@ class PixiScene {
       this.c.y += yunits
     })
   }
+
+  onClick() {
+    console.log('yolo');
+  }
 }
 
 

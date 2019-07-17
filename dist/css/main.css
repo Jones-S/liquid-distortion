@@ -7,4 +7,5 @@ body {
   width: 100%;
   text-align: center;
   color: white;
-  position: absolute; }
+  position: absolute;
+  pointer-events: none; }
