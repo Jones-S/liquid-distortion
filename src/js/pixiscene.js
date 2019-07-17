@@ -49,7 +49,7 @@ class PixiScene {
     // repeat displacement image (tiles) to fill screen
     displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT
 
-    console.log(this);
+    // console.log(this);
 
     this.app.stage.addChild(displacementSprite)
 
