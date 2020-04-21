@@ -7,7 +7,9 @@ class PixiScene {
 
 
     // this.app = new PIXI.Application(600, 500)
+    console.log('window.innerWidth: ', window.innerWidth)
     this.app = new PIXI.Application(window.innerWidth, window.innerHeight)
+    console.log('document.body: ', document.body)
     document.body.appendChild(this.app.view)
 
     this.app.stage.interactive = true
@@ -15,12 +17,12 @@ class PixiScene {
     this.container = new PIXI.Container()
     this.app.stage.addChild(this.container)
 
-    // const bg = PIXI.Sprite.fromImage('assets/inspirational-patterns-that-can-be-interpreted-by-sharpsicis-the-art-mosaic-factory-and-be-created-into-a-custom-sharpmosaic.jpg')
-    // const bg = PIXI.Sprite.fromImage('assets/Marbled_paper.jpg')
-    // const bg = PIXI.Sprite.fromImage('assets/tumblr_nnj1v1T4el1rclv0wo1_500.jpg')
-    // const bg = PIXI.Sprite.fromImage('assets/a3de5c91d073253d9b6a31bcc4a20a6d.jpg')
-    const texture = PIXI.Texture.fromImage('assets/marble_pattern.jpg')
-    const bg = new PIXI.extras.TilingSprite(
+    // const bg = PIXI.Sprite.from('assets/inspirational-patterns-that-can-be-interpreted-by-sharpsicis-the-art-mosaic-factory-and-be-created-into-a-custom-sharpmosaic.jpg')
+    // const bg = PIXI.Sprite.from('assets/Marbled_paper.jpg')
+    // const bg = PIXI.Sprite.from('assets/tumblr_nnj1v1T4el1rclv0wo1_500.jpg')
+    // const bg = PIXI.Sprite.from('assets/a3de5c91d073253d9b6a31bcc4a20a6d.jpg')
+    const texture = PIXI.Texture.from('assets/marble_pattern.jpg')
+    const bg = new PIXI.TilingSprite(
         texture,
         this.app.screen.width,
         this.app.screen.height
@@ -43,7 +45,7 @@ class PixiScene {
   }
 
   addDisplacementMap() {
-    const displacementSprite  = PIXI.Sprite.fromImage('assets/dmaps/2048x2048/ripple.jpg')
+    const displacementSprite  = PIXI.Sprite.from('assets/dmaps/2048x2048/ripple.jpg')
     const displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite)
 
     // repeat displacement image (tiles) to fill screen
