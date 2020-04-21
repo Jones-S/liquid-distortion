@@ -40260,43 +40260,65 @@ class PixiScene {
 
   constructor() {
 
+    this.app = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["a" /* Application */]({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      backgroundColor: 0x000000,
+      resolution: window.devicePixelRatio || 1,
+    })
 
-    // this.app = new PIXI.Application(600, 500)
-    console.log('window.innerWidth: ', window.innerWidth)
-    this.app = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["a" /* Application */](window.innerWidth, window.innerHeight)
-    console.log('document.body: ', document.body)
     document.body.appendChild(this.app.view)
-
-    this.app.stage.interactive = true
 
     this.container = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["b" /* Container */]()
     this.app.stage.addChild(this.container)
 
-    // const bg = PIXI.Sprite.from('assets/inspirational-patterns-that-can-be-interpreted-by-sharpsicis-the-art-mosaic-factory-and-be-created-into-a-custom-sharpmosaic.jpg')
-    // const bg = PIXI.Sprite.from('assets/Marbled_paper.jpg')
-    // const bg = PIXI.Sprite.from('assets/tumblr_nnj1v1T4el1rclv0wo1_500.jpg')
-    // const bg = PIXI.Sprite.from('assets/a3de5c91d073253d9b6a31bcc4a20a6d.jpg')
+    // create a new Sprite from an image path
     const texture = __WEBPACK_IMPORTED_MODULE_0_pixi_js__["d" /* Texture */].from('assets/marble_pattern.jpg')
+
+    // // center the sprite's anchor point
+    // sprite.anchor.set(0.5);
+
+    // // move the sprite to the center of the screen
+    // sprite.x = this.app.screen.width / 2;
+    // sprite.y = this.app.screen.height / 2;
+
+    // this.container.addChild(sprite);
+
     const bg = new __WEBPACK_IMPORTED_MODULE_0_pixi_js__["e" /* TilingSprite */](
-        texture,
-        this.app.screen.width,
-        this.app.screen.height
-    );
-
-    this.app.stage.addChild(bg)
-
-
-    // bg.width = this.app.screen.width * 1.5
-    // bg.height = this.app.screen.height * 1.5
-
-    // this.container.x = -300
-    // this.container.y = -300
+      texture,
+      this.app.screen.width,
+      this.app.screen.height
+    )
 
     this.container.addChild(bg)
 
+    // Listen for animate update
+    this.app.ticker.add((delta) => {
+      // just for fun, let's rotate mr rabbit a little
+      // delta is 1 if running at 100% performance
+      // creates frame-independent transformation
+      texture.rotation += 0.002 * delta;
+    });
+
+
+
+    // // this.renderer.stage.interactive = true
+
+
+    // console.log('texture: ', texture)
+
+    // const sprite = new PIXI.Sprite(texture)
+    // sprite.anchor.set(0.5)
+
+    // this.container.addChild(sprite)
+
+
+
+
+
+    // this.container.addChild(bg)
+
     this.addDisplacementMap()
-
-
   }
 
   addDisplacementMap() {
